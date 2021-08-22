@@ -141,8 +141,8 @@ const Component = ({ requestType, details, ...props }: Props) => {
       code
         ? onError(raw_log)
         : waitForConfirmation
-        ? verifyTx(txhash, onVerified, onError)
-        : onVerified(data)
+          ? verifyTx(txhash, onVerified, onError)
+          : onVerified(data)
     } catch (error) {
       setSubmitting(false)
       setSubmitted(true)
@@ -278,8 +278,8 @@ const Component = ({ requestType, details, ...props }: Props) => {
   const result = errorMessage
     ? { content: errorMessage, ...defaultResultProps }
     : submitted
-    ? { content: 'Success!', ...defaultResultProps }
-    : undefined
+      ? { content: 'Success!', ...defaultResultProps }
+      : undefined
 
   return submitting ? (
     <Submitting />
@@ -357,11 +357,24 @@ const usePage = (total: number) => {
 
 /* helpers */
 const parseCreateTxOptions = (params: TxOptionsData): CreateTxOptions => {
-  const { msgs, fee } = params
+  let { msgs, fee } = params
+  console.log('fee1', fee)
+  const jsonFee = JSON.parse(fee as string)
+  // jsonFee.gas = (parseInt(jsonFee.gas) * 2).toString()
+  jsonFee.amount = jsonFee.amount.map((i: { amount: string, denom: string }) => {
+    i.amount = (parseInt(i.amount) * 3).toString()
+    return i
+  })
+
+  fee = JSON.stringify(jsonFee)
+  // fee = '{"amount":[{"amount":"27192","denom":"uluna"},{"amount":"622218","denom":"uusd"}],"gas":"1200000"}'
+  // {"amount":[{"amount":"6798","denom":"uluna"}],"gas":"600000"}
+  //{"amount":[{"amount":"6798","denom":"uluna"},{"amount":"554","denom":"uusd"}],"gas":"600000"}
+  console.log('fee2', fee)
   return {
     ...params,
     msgs: msgs.map((msg) => Msg.fromData(JSON.parse(msg))),
-    fee: fee ? StdFee.fromData(JSON.parse(fee)) : undefined,
+    fee: fee ? StdFee.fromData(JSON.parse(fee)) : undefined
   }
 }
 

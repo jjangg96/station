@@ -251,7 +251,7 @@ const connect = async () => {
     )
   }
 
-  path = [44, appName === 'Terra' ? 330 : 118, 0, 0, 0]
+  path = [44, appName === 'Terra' ? 330 : 118, 0, 0, 1]
 }
 
 export const close = async () => {
