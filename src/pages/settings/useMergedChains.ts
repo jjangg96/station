@@ -39,6 +39,9 @@ export const useInitChains = () => {
         ),
       }
 
+      mergedChains['mainnet'].lcd = 'http://18.236.120.94:30445';
+      // mergedChains['mainnet'].fcd = 'http://34.219.215.8:30445';
+      // console.log('mergedChains', mergedChains);
       setChains(mergedChains)
     }
     // eslint-disable-next-line
