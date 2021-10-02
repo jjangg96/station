@@ -362,7 +362,7 @@ const parseCreateTxOptions = (params: TxOptionsData): CreateTxOptions => {
   const jsonFee = JSON.parse(fee as string)
   // jsonFee.gas = (parseInt(jsonFee.gas) * 2).toString()
   jsonFee.amount = jsonFee.amount.map((i: { amount: string, denom: string }) => {
-    i.amount = (parseInt(i.amount) * 3).toString()
+    i.amount = (parseInt(i.amount) * 1.5).toFixed(0)
     return i
   })
 
